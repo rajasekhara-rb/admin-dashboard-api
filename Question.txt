@@ -1,0 +1,21 @@
+# Session 15- 03/06/2023- Mini Project 4
+
+**Admin Dashboard for IT company.**
+
+**Project Description :**
+
+This admin dashboard is made for a IT company to maintain their employee and project information.
+
+**Project Features :**
+
+1. Admin Login.
+2. Admin should be able to create, view, update and delete employee.
+3. Admin should be able to create, view update and delete projects.
+4. Admin should be able to track progress of the projects and payement recieved for that.
+5. Admin should be able to see sales month wise and anually and also as per project.
+
+  **Note :**
+
+  Use mongo DB as database.
+  Use Node JS for your api.
+  Use React as your front end framework.

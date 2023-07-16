@@ -9,8 +9,8 @@ const auth = (req, res, next) => {
         if (token) {
             const jwtToken = token.split(" ")[1];
             const result = jwt.verify(jwtToken, JWT_SECRET_KEY);
-            const adminId = result.id;
-            req.id = adminId;
+             req.id = result.id;
+            //  console.log(result.id)
             next()
 
         } else {

@@ -1,12 +1,14 @@
-import express from "express"
+import express from "express";
+import auth from "../middleware/auth.js";
+import { createProject, deleteProject, getOneProjectById, getProjects, updateProject } from "../controllers/projectController.js";
 
 const projectRoutes = express.Router();
 
-projectRoutes.get("/", (req, res) => {
-    res.send("projects get")
-})
+projectRoutes.get("/", auth, getProjects);
+projectRoutes.get("/:id", auth, getOneProjectById);
+projectRoutes.post("/", auth, createProject);
+projectRoutes.put("/:id", auth, updateProject);
+projectRoutes.delete("/:id", auth, deleteProject);
 
-projectRoutes.post("/", (req, res) => {
-    res.send("create project")
-})
+
 export default projectRoutes;

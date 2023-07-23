@@ -51,8 +51,8 @@ const updateProject = async (req, res) => {
             projectStatus: status,
             projectProgress: progress,
         }
-        const result = await projectModel.findByIdAndUpdate(id,newProject,{new:true});
-        res.send({message:"project details updated", project:result})
+        const result = await projectModel.findByIdAndUpdate(id, newProject, { new: true });
+        res.send({ message: "project details updated", project: result })
     } catch (error) {
         console.log(error);
         res.send({ message: "something went wrong" });
@@ -60,14 +60,18 @@ const updateProject = async (req, res) => {
 }
 
 const deleteProject = async (req, res) => {
-const id = req.params.id;
-try {
-    await projectModel.deleteOne({_id:id});
-    res.send({message:"Project deleted"});
-} catch (error) {
-    console.log(error);
-    res.send({ message: "something went wrong" });
+    const id = req.params.id;
+    try {
+        await projectModel.deleteOne({ _id: id });
+        res.send({ message: "Project deleted" });
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "something went wrong" });
+    }
 }
+
+const assignEmployeesToProject = async(req, res)=>{
+
 }
 
 export {

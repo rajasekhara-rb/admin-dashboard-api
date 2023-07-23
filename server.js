@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import employeeRoutes from "./routes/employeeRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 
 // starting an instance of the express 
 const app = express();
@@ -28,6 +29,7 @@ mongoose.connect(MONGODB_URL).then(() => {
 app.use("/employees", employeeRoutes);
 app.use("/projects", projectRoutes);
 app.use("/admin", adminRoutes);
+app.use("/payments", paymentRoutes);
 
 app.get("/", (req, res) => {
     res.send(`<h1>Server is started</h1>`);

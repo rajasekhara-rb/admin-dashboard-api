@@ -17,6 +17,9 @@ const employeeSchema = new mongoose.Schema({
     employeePhoneNo: {
         type: String,
         required:true,
+    },
+    assignedProject:{
+        type:String,
     }
 
 }, {timestamps:true});

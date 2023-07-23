@@ -1,4 +1,5 @@
 import projectModel from "../models/projectModel.js";
+import employeeModel from "../models/employeeModel.js";
 
 const createProject = async (req, res) => {
     const { name, description } = req.body;
@@ -70,8 +71,41 @@ const deleteProject = async (req, res) => {
     }
 }
 
-const assignEmployeesToProject = async(req, res)=>{
+const assignEmployeesToProject = async (req, res) => {
+    const { projectId, assignedEmployeesIds } = req.body;
+    try {
+        const result = await projectModel.updateOne({ _id: projectId },
+            { $set: { assignedEmployees: assignedEmployeesIds } });
 
+        assignedEmployeesIds.map(async (employee) => {
+            const empResult = await employeeModel.updateOne({ _id: employee }, {
+                $set: { assignedProject: projectId, projectAssigned: true }
+            })
+        })
+        res.send({ message: "assigned successfully" })
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "something went wrong" });
+    }
+}
+
+const changeProjectOfEmployees = async (req, res) => {
+    const { employeeId, projectId, newProjectId } = req.body;
+    try {
+        await projectModel.updateOne({ _id: projectId },
+            { $pull: { "assignedEmployees": employeeId } });
+
+        await employeeModel.updateOne({ _id: employeeId },
+            { $set: { "assignedProject": newProjectId } });
+
+        await projectModel.updateOne({ _id: newProjectId },
+            { $push: { "assignedEmployees": employeeId } });
+
+        res.send({ message: "Project changed successfully" });
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "something went wrong" });
+    }
 }
 
 export {
@@ -80,4 +114,6 @@ export {
     getProjects,
     updateProject,
     deleteProject,
+    assignEmployeesToProject,
+    changeProjectOfEmployees,
 }

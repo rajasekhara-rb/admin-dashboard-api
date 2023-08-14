@@ -8,11 +8,12 @@ const auth = (req, res, next) => {
     try {
         if (token) {
             const jwtToken = token.split(" ")[1];
+            // console.log(jwtToken);
             const result = jwt.verify(jwtToken, JWT_SECRET_KEY);
-             req.id = result.id;
-            //  console.log(result.id)
+             req.userId = result.id;
+             req.userDetails = result
+            //  console.log(result)
             next()
-
         } else {
             res.send({ message: "Unauthorized User" })
         }

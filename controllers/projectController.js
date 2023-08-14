@@ -3,7 +3,7 @@ import employeeModel from "../models/employeeModel.js";
 
 const createProject = async (req, res) => {
     const { name, description } = req.body;
-    const id = req.id;
+    const id = req.userId;
     console.log(id)
     try {
         const newProject = new projectModel({
@@ -20,7 +20,7 @@ const createProject = async (req, res) => {
 }
 
 const getProjects = async (req, res) => {
-    const id = req.id;
+    const id = req.userId;
     try {
         const result = await projectModel.find({ userId: id });
         res.send(result);
@@ -31,7 +31,7 @@ const getProjects = async (req, res) => {
 }
 
 const getOneProjectById = async (req, res) => {
-    const userId = req.id;
+    const userId = req.userId;
     const id = req.params.id;
     try {
         const result = await projectModel.findOne({ "userId": userId, "_id": id })

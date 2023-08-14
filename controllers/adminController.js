@@ -11,7 +11,6 @@ const signup = async (req, res) => {
 
     try {
         const existinguser = await adminModel.findOne({ email: email });
-
         if (existinguser) {
             res.status(400).send({ message: "User already exists" });
         } else {
@@ -32,21 +31,25 @@ const signup = async (req, res) => {
 }
 const signin = async (req, res) => {
     const { email, password } = req.body;
+    // const userDetails = req.userDetails;
+    // console.log(userDetails)
     try {
-        const existinguser = await adminModel.findOne({ email: email });
+        const existinguser = await adminModel.findOne({ email: email })
+        // console.log(existinguser)
         if (!existinguser) {
-            res.send({ message: "User not found" })
+            res.send({ message: "Invalid crednetials" })
         } else {
-            const matchPassword = bcrypt.compare(password, existinguser.password);
-            if (matchPassword) {
-                const signInToken = jwt.sign({ email: existinguser.email, id: existinguser._id }, JWT_SECRET_KEY);
-                res.send({ user: existinguser, token: signInToken })
-            } else {
+            const matchPassword = await bcrypt.compare(password, existinguser.password);
+            if (!matchPassword) {
                 res.send({ message: "Invalid crednetials" })
+            } else {
+                const signInToken = jwt.sign({ id: existinguser._id, name: existinguser.name, email: existinguser.email }, JWT_SECRET_KEY);
+                res.send({ message: "Signin Successfull", user: { name: existinguser.name, email: existinguser.email, id: existinguser._id }, token: signInToken })
             }
         }
     } catch (error) {
-
+        console.log(error);
+        res.send({ message: "Something went wrong" })
     }
 }
 

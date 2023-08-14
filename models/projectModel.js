@@ -16,8 +16,8 @@ const projectSchema = new mongoose.Schema({
         type: Array,
     },
     userId: {
-        type: Schema.Types.ObjectId, 
-        ref:"Admin",
+        type: Schema.Types.ObjectId,
+        ref: "Admin",
         // required: true,
     }
 }, { timestamps: true })

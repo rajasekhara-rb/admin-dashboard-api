@@ -11,8 +11,10 @@ const createProject = async (req, res) => {
             projectDescription: description,
             userId: id,
         })
-        const result = newProject.save();
-        res.send({ message: "Project created", project: newProject })
+        const result = newProject.save()
+            .then((result) => {
+                res.send({ message: "Project created", project: result })
+            })
     } catch (error) {
         console.log(error);
         res.send({ message: "something went wrong" })

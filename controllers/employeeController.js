@@ -32,10 +32,22 @@ const getEmployees = async (req, res) => {
     }
 }
 
+const getEmployeesByProjectId = async (req, res) => {
+    const projectId = req.params.projectId;
+    try {
+        const result = await employeeModel.find({ assignedProject: projectId })
+        res.send(result)
+
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "somehting went wrong" })
+    }
+}
+
 const getOneEmployeeById = async (req, res) => {
     const id = req.params.id;
     try {
-        const result = await employeeModel.findOne({_id:id});
+        const result = await employeeModel.findOne({ _id: id });
         res.send(result)
     } catch (error) {
         console.log(error);
@@ -78,4 +90,5 @@ export {
     updateEmployee,
     deleteEmployee,
     getOneEmployeeById,
+    getEmployeesByProjectId,
 }

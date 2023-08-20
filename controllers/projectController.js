@@ -81,7 +81,7 @@ const assignEmployeesToProject = async (req, res) => {
 
         assignedEmployeesIds.map(async (employee) => {
             const empResult = await employeeModel.updateOne({ _id: employee }, {
-                $set: { assignedProject: projectId, projectAssigned: true }
+                $set: { assignedProject: projectId, assigned: true }
             })
         })
         res.send({ message: "assigned successfully" })

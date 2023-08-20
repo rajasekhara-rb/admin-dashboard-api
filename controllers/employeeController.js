@@ -1,17 +1,19 @@
 import employeeModel from "../models/employeeModel.js";
 
 const createEmployee = async (req, res) => {
-    const { name, email, phoneNo } = req.body;
+    const { name, email, phone } = req.body;
     try {
         const newEmployee = new employeeModel({
             employeeName: name,
             employeeEmail: email,
-            employeePhoneNo: phoneNo
+            employeePhoneNo: phone,
+            assigned: false
         });
         const existingEmployee = await employeeModel.findOne({ employeeEmail: email });
         if (!existingEmployee) {
-            await newEmployee.save();
-            res.send({ message: "New employee created", newEmployee })
+            await newEmployee.save().then((employee) => {
+                res.send({ message: "New employee created", employee })
+            })
         } else {
             res.send({ message: "Employee already exists" })
 
@@ -44,6 +46,7 @@ const getEmployeesByProjectId = async (req, res) => {
     }
 }
 
+
 const getOneEmployeeById = async (req, res) => {
     const id = req.params.id;
     try {
@@ -57,12 +60,12 @@ const getOneEmployeeById = async (req, res) => {
 
 const updateEmployee = async (req, res) => {
     const id = req.params.id;
-    const { name, email, phoneNo } = req.body;
+    const { name, email, phone } = req.body;
     try {
         const updatedEmployee = {
             employeeName: name,
             employeeEmail: email,
-            employeePhoneNo: phoneNo
+            employeePhoneNo: phone
         }
 
         await employeeModel.findByIdAndUpdate(id, updatedEmployee, { new: true });
@@ -84,6 +87,18 @@ const deleteEmployee = async (req, res) => {
     }
 }
 
+const getUnassignedEmployees = async (req, res) => {
+    try {
+        const result = await employeeModel.findOne({ assigned: false })
+            .then((emp) => {
+                res.send(emp)
+            }).catch((error) => { res.send(error) })
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "somehting went wrong" })
+    }
+}
+
 export {
     createEmployee,
     getEmployees,
@@ -91,4 +106,5 @@ export {
     deleteEmployee,
     getOneEmployeeById,
     getEmployeesByProjectId,
+    getUnassignedEmployees,
 }

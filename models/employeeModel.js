@@ -2,27 +2,30 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-const MONGODB_URL = process.env.MONGODB_URL;
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+// const MONGODB_URL = process.env.MONGODB_URL;
+// const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const employeeSchema = new mongoose.Schema({
     employeeName: {
         type: String,
-        required:true,
+        required: true,
     },
     employeeEmail: {
         type: String,
-        required:true,
+        required: true,
     },
     employeePhoneNo: {
-        type: String,
-        required:true,
+        type: Number,
+        required: true,
     },
-    assignedProject:{
-        type:String,
+    assignedProject: {
+        type: String,
+    },
+    assigned: {
+        type: String,
     }
 
-}, {timestamps:true});
+}, { timestamps: true });
 
 const Employee = mongoose.model("Employee", employeeSchema)
 

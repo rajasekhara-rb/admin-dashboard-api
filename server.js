@@ -4,7 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import employeeRoutes from "./routes/employeeRoutes.js";
+import { unassignedEmployeeRoute, employeeRoutes } from "./routes/employeeRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
@@ -30,6 +30,7 @@ app.use("/employees", employeeRoutes);
 app.use("/projects", projectRoutes);
 app.use("/admin", adminRoutes);
 app.use("/payments", paymentRoutes);
+app.use("/unassigned", unassignedEmployeeRoute);
 
 app.get("/", (req, res) => {
     res.send(`<h1>Server is started</h1>`);

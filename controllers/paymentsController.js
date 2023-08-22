@@ -85,10 +85,22 @@ const getPaymentsOfProjectByYear = async (req, res) => {
     }
 }
 
+const getPaymentsByProjectId = async (req, res) => {
+    const projectId = req.params.id
+    try {
+        const result = await paymentsModel.find({ projectId: projectId })
+        res.send(result)
+
+    } catch (error) {
+        res.send({ message: "Something went wrong" })
+    }
+}
+
 export {
     createPayment,
     getPayments,
     getPaymentsById,
     getPaymentsOfProjectByMonth,
     getPaymentsOfProjectByYear,
+    getPaymentsByProjectId,
 }

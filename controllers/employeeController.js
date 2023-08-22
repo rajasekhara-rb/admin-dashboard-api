@@ -88,11 +88,13 @@ const deleteEmployee = async (req, res) => {
 }
 
 const getUnassignedEmployees = async (req, res) => {
+    // const value = req.query.assigned
     try {
-        const result = await employeeModel.findOne({ assigned: false })
-            .then((emp) => {
-                res.send(emp)
-            }).catch((error) => { res.send(error) })
+        const result = await employeeModel.find({ assigned: false })
+        res.send(result)
+            // .then((emp) => {
+            //     res.send(emp)
+            // }).catch((error) => { res.send(error) })
     } catch (error) {
         console.log(error);
         res.send({ message: "somehting went wrong" })

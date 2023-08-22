@@ -22,7 +22,7 @@ const employeeSchema = new mongoose.Schema({
         type: String,
     },
     assigned: {
-        type: String,
+        type: Boolean,
     }
 
 }, { timestamps: true });

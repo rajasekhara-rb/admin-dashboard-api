@@ -38,6 +38,75 @@ const getPaymentsById = async (req, res) => {
     }
 }
 
+const getDailySales = async (req, res) => {
+    try {
+        const result = await paymentsModel.aggregate([
+            { $match: {} },
+            {
+                $group: {
+                    _id: {
+                        year: { $year: "$date" },
+                        month: { $month: "$date" },
+                        day: { $dayOfMonth: "$date" }
+                    },
+                    amount: { $sum: "$amount" }
+                }
+            }
+
+        ])
+        res.send(result)
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "Something went wrong" })
+    }
+}
+
+const getMonthlySales = async (req, res) => {
+    try {
+        const result = await paymentsModel.aggregate([
+            { $match: {} },
+            {
+                $group: {
+                    _id: {
+                        year: { $year: "$date" },
+                        month: { $month: "$date" },
+                        // day: { $dayOfMonth: "$date" }
+                    },
+                    amount: { $sum: "$amount" }
+                }
+            }
+
+        ])
+        res.send(result)
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "Something went wrong" })
+    }
+}
+
+const getYearlySales = async (req, res) => {
+    try {
+        const result = await paymentsModel.aggregate([
+            { $match: {} },
+            {
+                $group: {
+                    _id: {
+                        year: { $year: "$date" },
+                        // month: { $month: "$date" },
+                        // day: { $dayOfMonth: "$date" }
+                    },
+                    amount: { $sum: "$amount" }
+                }
+            }
+
+        ])
+        res.send(result)
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "Something went wrong" })
+    }
+}
+
 const getPaymentsOfProjectByMonth = async (req, res) => {
     const id = req.params.id;
 
@@ -103,4 +172,7 @@ export {
     getPaymentsOfProjectByMonth,
     getPaymentsOfProjectByYear,
     getPaymentsByProjectId,
+    getDailySales,
+    getMonthlySales,
+    getYearlySales,
 }

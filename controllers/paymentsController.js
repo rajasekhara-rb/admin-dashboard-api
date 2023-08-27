@@ -47,13 +47,14 @@ const getDailySales = async (req, res) => {
                     _id: {
                         year: { $year: "$date" },
                         month: { $month: "$date" },
-                        day: { $dayOfMonth: "$date" }
+                        day: { $dayOfMonth: "$date" },
+                        // date:{$dateToString: "$date"}
                     },
                     amount: { $sum: "$amount" }
                 }
             }
 
-        ])
+        ]).sort({ _id: 1 })
         res.send(result)
     } catch (error) {
         console.log(error);
@@ -72,11 +73,11 @@ const getMonthlySales = async (req, res) => {
                         month: { $month: "$date" },
                         // day: { $dayOfMonth: "$date" }
                     },
-                    amount: { $sum: "$amount" }
+                    amount: { $sum: "$amount" },
                 }
             }
 
-        ])
+        ]).sort({ _id: 1 })
         res.send(result)
     } catch (error) {
         console.log(error);
@@ -99,7 +100,7 @@ const getYearlySales = async (req, res) => {
                 }
             }
 
-        ])
+        ]).sort({ _id: 1 })
         res.send(result)
     } catch (error) {
         console.log(error);

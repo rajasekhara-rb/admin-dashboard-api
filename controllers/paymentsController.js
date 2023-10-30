@@ -166,6 +166,73 @@ const getPaymentsByProjectId = async (req, res) => {
     }
 }
 
+const getSalesByProjectId = async (req, res) => {
+    try {
+        const salestype = req.query.salestype;
+        const projectId = req.query.projectid;
+        // console.log(projectId);
+        if (salestype === "daily") {
+            const result = await paymentsModel.aggregate([
+                { $match: { projectId: projectId } },
+                {
+                    $group: {
+                        _id: {
+                            year: { $year: "$date" },
+                            month: { $month: "$date" },
+                            day: { $dayOfMonth: "$date" },
+                            // date:{$dateToString: "$date"}
+                        },
+                        amount: { $sum: "$amount" }
+                    }
+                }
+
+            ]).sort({ _id: 1 })
+            res.send(result)
+        } else if (salestype === "monthly") {
+
+            const result = await paymentsModel.aggregate([
+                { $match: {projectId: projectId} },
+                {
+                    $group: {
+                        _id: {
+                            year: { $year: "$date" },
+                            month: { $month: "$date" },
+                            // day: { $dayOfMonth: "$date" }
+                        },
+                        amount: { $sum: "$amount" },
+                    }
+                }
+
+            ]).sort({ _id: 1 })
+            res.send(result)
+
+        } else if (salestype === "yearly") {
+
+            const result = await paymentsModel.aggregate([
+                { $match: {projectId: projectId} },
+                {
+                    $group: {
+                        _id: {
+                            year: { $year: "$date" },
+                            // month: { $month: "$date" },
+                            // day: { $dayOfMonth: "$date" }
+                        },
+                        amount: { $sum: "$amount" }
+                    }
+                }
+
+            ]).sort({ _id: 1 })
+            res.send(result)
+
+        } else {
+            res.send({ message: "Sales Type error. Only daily, monthly & yearly are allowed" })
+        }
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "Something went wrong" })
+    }
+}
+
 export {
     createPayment,
     getPayments,
@@ -176,4 +243,5 @@ export {
     getDailySales,
     getMonthlySales,
     getYearlySales,
+    getSalesByProjectId,
 }

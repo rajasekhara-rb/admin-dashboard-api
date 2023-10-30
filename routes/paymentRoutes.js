@@ -1,5 +1,5 @@
 import express from "express";
-import { createPayment, getDailySales, getMonthlySales, getPayments, getPaymentsById, getPaymentsByProjectId, getPaymentsOfProjectByMonth, getPaymentsOfProjectByYear, getYearlySales } from "../controllers/paymentsController.js";
+import { createPayment, getDailySales, getMonthlySales, getPayments, getPaymentsById, getPaymentsByProjectId, getPaymentsOfProjectByMonth, getPaymentsOfProjectByYear, getSalesByProjectId, getYearlySales } from "../controllers/paymentsController.js";
 import auth from "../middleware/auth.js";
 
 const paymentRoutes = express.Router();
@@ -12,7 +12,8 @@ paymentRoutes.get("/month/:id", auth, getPaymentsOfProjectByMonth);
 paymentRoutes.get("/year/:id", auth, getPaymentsOfProjectByYear);
 paymentRoutes.get("/project/:id", auth, getPaymentsByProjectId);
 
-salesRoutes.get("/daily", auth, getDailySales)
+salesRoutes.get("/?", auth, getSalesByProjectId);
+salesRoutes.get("/daily", auth, getDailySales);
 salesRoutes.get("/monthly", auth, getMonthlySales)
 salesRoutes.get("/yearly", auth, getYearlySales)
 
